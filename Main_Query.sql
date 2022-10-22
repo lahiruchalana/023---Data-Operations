@@ -1,3 +1,18 @@
-CREATE DATABASE ;
+CREATE DATABASE nyle;
 
-USE sample_databse;
+DROP DATABASE nyle;
+
+USE nyle;
+
+CREATE TABLE task(
+	id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE task
+ADD complation_date DATE NOT NULL ; 
+
+DROP TABLE task;
+
+SELECT * FROM task;
