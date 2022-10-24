@@ -46,3 +46,13 @@ SELECT * FROM task;
 
 SELECT * FROM task 
 WHERE name IN ("Assignment of OOP", "Maths class", "Python Class");
+
+SELECT * FROM task 
+WHERE name="Assignment of OOP" OR name="Maths Class";
+
+SELECT * FROM task 
+WHERE name LIKE "%OOP%" AND id=2;
+
+SELECT * FROM task 
+WHERE NOT id=1;
+
