@@ -29,3 +29,18 @@ INSERT INTO lecturer (name)
 VALUE ("Chris"), ("Lukheshenkow"), ("Pereires"), ("Jonathan"), ("Stoints"), ("Hamphysher");
 
 SELECT * FROM lecturer;
+
+ALTER TABLE exam
+ADD CONSTRAINT fk_lecturer
+FOREIGN KEY (lecturer) REFERENCES lecturer(id);
+
+INSERT INTO exam (name, subject_id, date, place, lecturer)
+VALUE ("OOP test 34s", 1, "2022-11-27", "AK234", 3);
+
+SELECT * FROM exam;
+
+INSERT INTO exam (name, subject_id, date, place, lecturer)
+VALUE ("Past Test", 5, "2022-12-07", "4HT4", 6);
+
+INSERT INTO exam (name, subject_id, date, place, lecturer)
+VALUE ("Past Test", 5, "2022-12-11", "HT54", 6), ("Nest exam", 6, "2022-12-17", "AT554", 6), ("Agile Test", 5, "2022-12-27", "4HT4", 2);
