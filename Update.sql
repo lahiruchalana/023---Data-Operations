@@ -44,3 +44,29 @@ VALUE ("Past Test", 5, "2022-12-07", "4HT4", 6);
 
 INSERT INTO exam (name, subject_id, date, place, lecturer)
 VALUE ("Past Test", 5, "2022-12-11", "HT54", 6), ("Nest exam", 6, "2022-12-17", "AT554", 6), ("Agile Test", 5, "2022-12-27", "4HT4", 2);
+
+UPDATE exam 
+SET name="Past Test 2"
+WHERE subject_id=5 AND date="2022-12-11";
+
+UPDATE exam
+SET name=NULL 
+WHERE id=8;
+
+SELECT * FROM exam;
+
+UPDATE exam
+SET name="Past Test"
+WHERE id=7;
+
+UPDATE exam
+SET place=NULL
+WHERE id=8;
+
+UPDATE exam
+SET date="2022-12-05"
+WHERE id=2;
+
+UPDATE exam
+SET date="2022-12-09"
+WHERE id=4;
