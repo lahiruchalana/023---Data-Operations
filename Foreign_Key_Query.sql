@@ -11,7 +11,7 @@ ADD COLUMN ( cat_id INT NOT NULL );
     
 ALTER TABLE task
 ADD CONSTRAINT fk_category
-FOREIGN KEY (cat_id) REFERENCES category(id); -------- NOT WORKING --------
+FOREIGN KEY (cat_id) REFERENCES category(id);
 
 SELECT * FROM task;
 
@@ -19,7 +19,6 @@ SELECT * FROM category;
 
 INSERT INTO task (name, complation_date, column_id)
 VALUE ("DSA 2 Test", "2022-11-05", 1);
-
 
 
 
@@ -39,10 +38,9 @@ ADD COLUMN (category_id INT NOT NULL);
 
 ALTER TABLE reminder 
 ADD CONSTRAINT fk_category
-FOREIGN KEY (cat_id) REFERENCES category(id); -------- NOT WORKING -------
+FOREIGN KEY (category_id) REFERENCES category(id); 
 
-
--------- REMINDER WORKING FROM HERE (STARTS) -------
+-------- WITHOUT ALTER - ADD FOREIGN KEY WHEN CREATING THE TABLE -------
 
 DROP TABLE reminder;
 
