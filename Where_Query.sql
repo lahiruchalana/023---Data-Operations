@@ -56,3 +56,17 @@ WHERE name LIKE "%OOP%" AND id=2;
 SELECT * FROM task 
 WHERE NOT id=1;
 
+SELECT * FROM task 
+WHERE name LIKE "%OOP%" AND complation_date LIKE "%01%";
+
+SELECT * FROM task 
+WHERE NOT name="maths class" AND ( name="science class" OR name="python class" );
+
+SELECT * FROM task
+WHERE name LIKE "%OOP%" AND ( NOT name="science class" OR name="python class" );
+
+SELECT * FROM task
+WHERE name LIKE "%class%" AND ( NOT name="science class" OR name="python class" );
+
+
+
