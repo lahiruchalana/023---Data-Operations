@@ -16,3 +16,49 @@ WHERE id=11;
 
 ------------ JOINS STARTS -------------
 
+SELECT exam.name, exam.subject_id, subject.name, exam.date, exam.place, exam.lecturer, lecturer.name
+FROM exam
+INNER JOIN subject ON exam.subject_id=subject.id
+INNER JOIN lecturer ON exam.lecturer=lecturer.id;
+
+SELECT * 
+FROM ( SELECT exam.name, exam.subject_id, subject.name AS subject_name, exam.date, exam.place, exam.lecturer, lecturer.name AS lecture_name
+		FROM exam
+		INNER JOIN subject ON exam.subject_id=subject.id
+		INNER JOIN lecturer ON exam.lecturer=lecturer.id
+) AS new_t
+WHERE subject_name="Java";
+
+SELECT exam.name, exam.subject_id, subject.name, exam.date, exam.place, exam.lecturer, lecturer.name
+FROM exam
+LEFT JOIN subject ON exam.subject_id=subject.id
+LEFT JOIN lecturer ON exam.lecturer=lecturer.id;
+
+SELECT exam.name, exam.subject_id, subject.name, exam.date, exam.place, lecturer.id, lecturer.name
+FROM exam
+LEFT JOIN subject ON exam.subject_id=subject.id
+RIGHT JOIN lecturer ON exam.lecturer=lecturer.id;
+
+SELECT exam.name, subject.id, subject.name, lecturer.id, lecturer.name, exam.date, exam.place
+FROM exam
+FULL OUTER JOIN subject ON exam.subject_id=subject.id
+FULL OUTER JOIN lecturer ON exam.lecturer=lecturer.id;
+
+SELECT  exam.name, subject.id, subject.name AS subject_name, lecturer.id, lecturer.name AS lecturer_name, exam.date, exam.place
+FROM exam
+INNER JOIN subject ON exam.subject_id=subject.id
+INNER JOIN lecturer ON exam.lecturer=lecturer.id
+WHERE lecturer.name LIKE "%er%";
+
+SELECT * 
+FROM (	SELECT  exam.name, subject.id AS subject_id, subject.name AS subject_name, lecturer.id AS lecture_id, lecturer.name AS lecturer_name, exam.date, exam.place
+		FROM exam
+		INNER JOIN subject ON exam.subject_id=subject.id
+		INNER JOIN lecturer ON exam.lecturer=lecturer.id
+		WHERE lecturer.name LIKE "%er%"
+) AS new_t
+ORDER BY lecturer_name ASC;
+
+
+
+
