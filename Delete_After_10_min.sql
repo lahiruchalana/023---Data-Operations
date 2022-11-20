@@ -1,0 +1,23 @@
+USE nyle;
+
+SELECT * FROM orders;
+
+INSERT INTO orders(custId, orderTotal, orderDateTime)
+VALUE (1, 450.00, "2020-11-17 19:05:08");
+
+DELETE FROM orders 
+WHERE orderDateTime > CURRENT_TIMESTAMP - INTERVAL 10 MINUTE;
+
+CREATE TABLE times (
+	id INT NOT NULL AUTO_INCREMENT,
+    times TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
+
+INSERT INTO times(id)
+VALUE (9);
+
+SELECT * FROM times;
+
+DELETE FROM times WHERE times < (NOW() - INTERVAL 30 second);
+

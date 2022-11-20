@@ -37,3 +37,4 @@ VALUE ("C#"), ("C++");
 INSERT INTO exam (name, subject_id)
 VALUE ("DSA exam", 2);
 
+
