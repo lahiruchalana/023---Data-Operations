@@ -91,7 +91,6 @@ INNER JOIN (SELECT employee_count_on_department.department_id, employee_count_on
 SET commission = 5
 WHERE count_table.manager_id = employee.employee_id; 
 
-
 SELECT * FROM employee;
 
 
