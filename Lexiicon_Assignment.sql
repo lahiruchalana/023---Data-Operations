@@ -46,5 +46,52 @@ VALUES (101, "Neena", "Kogh", "neena@gmail.com", 768565625, "2021-11-05", "EMP",
         (110, "John", "Dani", "dani@gmail.com", 777888625, "2011-11-12", "EMP", 17854.20, 108, 50)
 ;
 
+# 1st
 UPDATE employee 
 SET salary = salary + 100;
+
+# 2nd
+SELECT COUNT(employee_id) AS employees_of_department, department_id
+FROM employee
+GROUP BY department_id;
+
+# 3rd
+ALTER TABLE employee
+ADD bonus INT;
+
+ALTER TABLE employee
+ADD commission INT;
+
+UPDATE employee
+SET bonus = 10
+WHERE salary < 5000;
+
+UPDATE employee
+SET bonus = 15
+WHERE salary BETWEEN 5000 AND 10000;
+
+UPDATE employee
+SET bonus = 20
+WHERE salary > 10000;
+
+SELECT employee_count_on_department.department_id, employee_count_on_department.employees_of_department, department.manager_id 
+FROM ( SELECT COUNT(employee_id) AS employees_of_department, department_id
+		FROM employee
+		GROUP BY department_id) AS employee_count_on_department
+INNER JOIN department ON department.department_id = employee_count_on_department.department_id
+WHERE employees_of_department > 100; 
+
+UPDATE employee
+INNER JOIN (SELECT employee_count_on_department.department_id, employee_count_on_department.employees_of_department, department.manager_id 
+	FROM ( SELECT COUNT(employee_id) AS employees_of_department, department_id
+			FROM employee
+			GROUP BY department_id) AS employee_count_on_department
+	INNER JOIN department ON department.department_id = employee_count_on_department.department_id
+	WHERE employees_of_department > 100) AS count_table
+SET commission = 5
+WHERE count_table.manager_id = employee.employee_id; 
+
+
+SELECT * FROM employee;
+
+
