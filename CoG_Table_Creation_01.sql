@@ -1,3 +1,4 @@
+####### Table creation for v5 starts #######
 CREATE TABLE `User` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `first_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
@@ -236,7 +237,9 @@ CREATE TABLE `Auth_Role` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+####### Table creation for v5 ends #######
 
+####### Data transfer between items of v4 and Item of v5 #######
   INSERT INTO cog_v5.Item (
   `user_id`,
   `title`,
@@ -287,6 +290,7 @@ FROM qapay.items;
 SELECT * FROM cog_v5.Item;
 TRUNCATE TABLE cog_v5.Item;
 
+####### Data transfer between users of v4 and User of v5 #######
 INSERT INTO cog_v5.User (first_name, last_name, auth_user_id, user_status, address, created_at, updated_at)
 SELECT first_name, last_name, 1234, "Active", address, created_at, updated_at
 FROM qapay.users;
@@ -294,6 +298,7 @@ FROM qapay.users;
 SELECT * FROM cog_v5.User;
 TRUNCATE TABLE cog_v5.User;
 
+####### Data transfer between users of v4 and User_Email of v5 #######
 INSERT INTO cog_v5.User_Email (email, email_status, user_id, email_updates, created_at, updated_at)
 SELECT email, CONCAT('Status_', ROUND(RAND() * 100)), id, email_updates, created_at, updated_at
 FROM qapay.users;
@@ -301,6 +306,7 @@ FROM qapay.users;
 SELECT * FROM cog_v5.User;
 TRUNCATE TABLE cog_v5.User;
 
+####### Data transfer between users of v4 and Auth_User of v5 #######
 INSERT INTO cog_v5.Auth_User (username, email, password, auth_user_id, referral_vendor, description, agreed_at, is_agreed, remember_token, enable_cc, stripe_customer_id, created_at, updated_at)
 SELECT username, email, password, FLOOR(RAND() * 1000000) AS auth_user_id, referral_vendor, description, agreed_at, is_agreed, remember_token, enable_cc, stripe_customer_id, created_at, updated_at
 FROM qapay.users;
@@ -308,6 +314,7 @@ FROM qapay.users;
 SELECT * FROM cog_v5.Auth_User;
 TRUNCATE TABLE cog_v5.Auth_User;
 
+####### Data transfer between user_addresses of v4 and User_Address of v5 #######
 INSERT INTO cog_v5.User_Address (user_id, zipcode, address_line_1, address_line_2, address_line_3, coordination, address_status, city, latitude, longitude, type, created_at, updated_at)
 SELECT user_id, zipcode, address_line_1, address_line_2, address_line_3, CONCAT(ROUND(RAND() * 100), ',', ROUND(RAND() * 100)), CONCAT('Status_', ROUND(RAND() * 100)), city, latitude, longitude, type, created_at, updated_at
 FROM qapay.user_addresses;
@@ -315,6 +322,7 @@ FROM qapay.user_addresses;
 SELECT * FROM cog_v5.User_Address;
 TRUNCATE TABLE cog_v5.User_Address;
 
+####### Data transfer between roles of v4 and Auth_Role of v5 #######
 INSERT INTO `cog_v5`.`Auth_Role` (`name`, `category`, `auth_user_id`, `created_at`, `updated_at`)
 SELECT `name`, `category`, 21235, `created_at`, `updated_at` 
 FROM `qapay`.`roles`;
@@ -322,6 +330,7 @@ FROM `qapay`.`roles`;
 SELECT * FROM cog_v5.Auth_Role;
 TRUNCATE TABLE cog_v5.Auth_Role;
 
+####### Data transfer between deliveries of v4 and Delivery of v5 #######
 INSERT INTO `cog_v5`.`Delivery` (`order_id`, `reservation_id`, `delivery_status_id`, `driver_id`, `delivery_type`, `delivery_date`, `delivery_time`, `item_acctepted_by`, `asset`, `notes`, `driver_notes`, `reminder_sent`, `manifest_id`, `created_at`, `updated_at`)
 SELECT `order_id`, `reservation_id`, `delivery_status_id`, `driver_id`, `delivery_type`, `delivery_date`, `delivery_time`, `item_acctepted_by`, `asset`, `notes`, `driver_notes`, `reminder_sent`, `manifest_id`, `created_at`, `updated_at` 
 FROM `qapay`.`deliveries`;
