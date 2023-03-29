@@ -209,6 +209,24 @@ CREATE TABLE `User_Email` (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `Auth_User` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `auth_user_id` int NOT NULL,
+  `referral_vendor` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `agreed_at` datetime DEFAULT NULL,
+  `is_agreed` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
+  `remember_token` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `enable_cc` tinyint(1) NOT NULL DEFAULT '0',
+  `stripe_customer_id` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=38355 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+
   INSERT INTO cog_v5.Item (
   `user_id`,
   `title`,
@@ -261,6 +279,7 @@ SELECT first_name, last_name, 1234, "Active", address, created_at, updated_at
 FROM qapay.users;
 
 SELECT * FROM cog_v5.User;
+
 TRUNCATE TABLE cog_v5.User;
 
 INSERT INTO cog_v5.User_Email (email, email_status, user_id, email_updates, created_at, updated_at)
@@ -269,6 +288,13 @@ FROM qapay.users;
 
 SELECT * FROM cog_v5.User;
 TRUNCATE TABLE cog_v5.User;
+
+INSERT INTO cog_v5.Auth_User (username, email, password, auth_user_id, referral_vendor, description, agreed_at, is_agreed, remember_token, enable_cc, stripe_customer_id, created_at, updated_at)
+SELECT username, email, password, FLOOR(RAND() * 1000000) AS auth_user_id, referral_vendor, description, agreed_at, is_agreed, remember_token, enable_cc, stripe_customer_id, created_at, updated_at
+FROM qapay.users;
+
+SELECT * FROM cog_v5.Auth_User;
+TRUNCATE TABLE cog_v5.Auth_User;
 
 INSERT INTO cog_v5.User_Address (user_id, zipcode, address_line_1, address_line_2, address_line_3, coordination, address_status, city, latitude, longitude, type, created_at, updated_at)
 SELECT user_id, zipcode, address_line_1, address_line_2, address_line_3, CONCAT(ROUND(RAND() * 100), ',', ROUND(RAND() * 100)), CONCAT('Status_', ROUND(RAND() * 100)), city, latitude, longitude, type, created_at, updated_at
