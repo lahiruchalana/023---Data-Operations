@@ -165,6 +165,50 @@ CREATE TABLE `Delivery` (
   PRIMARY KEY (`id`)
   ) ENGINE=InnoDB AUTO_INCREMENT=126083 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
   
+  CREATE TABLE `Rating` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `reservation_id` int unsigned NOT NULL,
+  `rater_id` int unsigned NOT NULL,
+  `rated_type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `star_rating` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `status` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `user_rated_as` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+  
+CREATE TABLE `abandoned_orders` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int unsigned DEFAULT NULL,
+  `cart_id` int NOT NULL,
+  `mobile_no` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT '',
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `delivery_charge` decimal(10,2) NOT NULL,
+  `discount` decimal(10,2) NOT NULL,
+  `has_next_day_morning_pickup` tinyint(1) NOT NULL DEFAULT '0',
+  `next_day_morning_pickup_fee` decimal(10,2) NOT NULL,
+  `has_damageWaiver` tinyint(1) NOT NULL DEFAULT '0',
+  `damageWaiver_fee` decimal(10,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11927 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `User_Email` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email_status` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `user_id` int unsigned NOT NULL,
+  `email_updates` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
   INSERT INTO cog_v5.Item (
   `user_id`,
   `title`,
@@ -219,6 +263,13 @@ FROM qapay.users;
 SELECT * FROM cog_v5.User;
 TRUNCATE TABLE cog_v5.User;
 
+INSERT INTO cog_v5.User_Email (email, email_status, user_id, email_updates, created_at, updated_at)
+SELECT email, CONCAT('Status_', ROUND(RAND() * 100)), id, email_updates, created_at, updated_at
+FROM qapay.users;
+
+SELECT * FROM cog_v5.User;
+TRUNCATE TABLE cog_v5.User;
+
 INSERT INTO cog_v5.User_Address (user_id, zipcode, address_line_1, address_line_2, address_line_3, coordination, address_status, city, latitude, longitude, type, created_at, updated_at)
 SELECT user_id, zipcode, address_line_1, address_line_2, address_line_3, CONCAT(ROUND(RAND() * 100), ',', ROUND(RAND() * 100)), CONCAT('Status_', ROUND(RAND() * 100)), city, latitude, longitude, type, created_at, updated_at
 FROM qapay.user_addresses;
@@ -226,8 +277,9 @@ FROM qapay.user_addresses;
 SELECT * FROM cog_v5.User_Address;
 TRUNCATE TABLE cog_v5.User_Address;
 
-INSERT INTO `database_name_2`.`Delivery` (`order_id`, `reservation_id`, `delivery_status_id`, `driver_id`, `delivery_type`, `delivery_date`, `delivery_time`, `item_acctepted_by`, `asset`, `notes`, `driver_notes`, `reminder_sent`, `manifest_id`, `created_at`, `updated_at`)
-SELECT `order_id`, `reservation_id`, `delivery_status_id`, `driver_id`, `delivery_type`, `delivery_date`, `delivery_time`, `item_acctepted_by`, `asset`, `notes`, `driver_notes`, `reminder_sent`, `manifest_id`, `created_at`, `updated_at` FROM `database_name_1`.`deliveries`;
+INSERT INTO `cog_v5`.`Delivery` (`order_id`, `reservation_id`, `delivery_status_id`, `driver_id`, `delivery_type`, `delivery_date`, `delivery_time`, `item_acctepted_by`, `asset`, `notes`, `driver_notes`, `reminder_sent`, `manifest_id`, `created_at`, `updated_at`)
+SELECT `order_id`, `reservation_id`, `delivery_status_id`, `driver_id`, `delivery_type`, `delivery_date`, `delivery_time`, `item_acctepted_by`, `asset`, `notes`, `driver_notes`, `reminder_sent`, `manifest_id`, `created_at`, `updated_at` 
+FROM `qapay`.`deliveries`;
 
 
 
