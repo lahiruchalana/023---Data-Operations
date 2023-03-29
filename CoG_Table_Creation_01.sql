@@ -237,6 +237,102 @@ CREATE TABLE `Auth_Role` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `City` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `second_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `short_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `delivery_locations_txt` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `attractions` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci,
+  `has_only_standard_deliveries` tinyint(1) NOT NULL DEFAULT '1',
+  `delivery_shifts` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'AM/PM',
+  `cog_model` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'COG_ONLY',
+  `vendor_acceptance_time_gap` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci,
+  `timezone` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `latitude` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `longitude` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `warehouse_address` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `radius` int DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `slack_channels` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `parent_city_id` int DEFAULT NULL,
+  `duration_2_days_discount` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `duration_3_days_discount` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `duration_4_to_6_days_discount` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `duration_7_to_13_days_discount` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `duration_14_plus_days_discount` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `airport_code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `state_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `state` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `tax_fee` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `Promotion` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `start_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `expiration_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `code_type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `discount_type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `discount` decimal(8,2) NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '0',
+  `rule_set` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=588 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `Transaction` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `payment_intent_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `trace_number` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `order_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `user_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `customer_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `amount` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `amount_captured` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `amount_refunded` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `status` varchar(2) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL DEFAULT '0' COMMENT '0=>pending 1=>authorized, 2=>captured, 3=>cancelled, 4=>Error occurred',
+  `status_information` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `reservations` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `item_id` int unsigned NOT NULL,
+  `lender_id` int unsigned NOT NULL,
+  `order_id` int unsigned NOT NULL,
+  `order_status_id` int unsigned NOT NULL,
+  `payment_type_id` int unsigned NOT NULL,
+  `delivery_window_id` int unsigned NOT NULL,
+  `from` datetime NOT NULL,
+  `to` datetime NOT NULL,
+  `purchased_at` datetime NOT NULL,
+  `quantity` int NOT NULL DEFAULT '1',
+  `total_amount` decimal(10,2) NOT NULL,
+  `rent_per_day_fee` decimal(10,2) NOT NULL,
+  `deliver_charge` int NOT NULL DEFAULT '20',
+  `discount` decimal(10,2) DEFAULT NULL,
+  `price_cache` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `invoice_no` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `delivery_time` time NOT NULL DEFAULT '20:00:00',
+  `pickup_time` time NOT NULL DEFAULT '20:00:00',
+  `special_instructions` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
+  `asset_id` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci,
+  `admin_notes` text CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci,
+  `is_payment_done` tinyint(1) DEFAULT '1',
+  `delivery_area_id` int unsigned DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `source` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci DEFAULT 'user',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=48296 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 ####### Table creation for v5 ends #######
 
 ####### Data transfer between items of v4 and Item of v5 #######
